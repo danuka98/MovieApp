@@ -31,24 +31,24 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         ),
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          items: <BottomNavigationBarItem>[
+          items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: const Icon(Icons.home),
+              icon: Icon(Icons.home),
               label: 'Home',
               backgroundColor: kDarkGrey,
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.search_outlined),
+              icon: Icon(Icons.search_outlined),
               label: 'Search',
               backgroundColor: kDarkGrey,
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.favorite),
+              icon: Icon(Icons.favorite),
               label: 'Favorite',
               backgroundColor: kDarkGrey,
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.person),
+              icon: Icon(Icons.person),
               label: 'Account',
               backgroundColor: kDarkGrey,
             ),

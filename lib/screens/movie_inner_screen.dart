@@ -122,7 +122,7 @@ class _MovieInnerPageState extends State<MovieInnerPage> {
                     '7.8',
                     style: TextStyle(
                       fontSize: widthScale * 5,
-                      color: Colors.green,
+                      color: kGreen,
                       fontWeight: FontWeight.w600
                     ),
                   ),
@@ -271,7 +271,7 @@ class _MovieInnerPageState extends State<MovieInnerPage> {
                   fontWeight: FontWeight.w300,
                 ),
                 textAlign: TextAlign.justify,
-                colorClickableText: Colors.blue,
+                colorClickableText: kBlue,
                 trimExpandedText: "Show less",
                 trimCollapsedText: "Read more",
               ),
@@ -363,7 +363,7 @@ class _MovieInnerPageState extends State<MovieInnerPage> {
                 itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                 itemBuilder: (context, _) => const Icon(
                   Icons.star,
-                  color: Colors.amber,
+                  color: kAmber,
                 ),
                 onRatingUpdate: (rating) {
                   print(rating);

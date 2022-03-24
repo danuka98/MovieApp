@@ -370,6 +370,7 @@ class _MovieInnerPageState extends State<MovieInnerPage> {
                 },
               ),
             ),
+            //this is my area
             SizedBox(
               height: heightScale * 10,
             ),
@@ -379,3 +380,4 @@ class _MovieInnerPageState extends State<MovieInnerPage> {
     );
   }
 }
+

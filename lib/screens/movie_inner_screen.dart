@@ -23,7 +23,7 @@ class _MovieInnerPageState extends State<MovieInnerPage> {
     heightScale = MediaQuery.of(context).size.height / 100;
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-    String text = "Action";
+    List<String> text = ["Action","Drama","Horror","Comedy","Sci-fi","Horror","Comedy","Sci-fi"];
 
     return Scaffold(
       backgroundColor: kDark,
@@ -137,39 +137,68 @@ class _MovieInnerPageState extends State<MovieInnerPage> {
                 )
               ],
             ),
+            // Padding(
+            //   padding:  EdgeInsets.only(
+            //     left: widthScale * 10,
+            //     right: widthScale * 10,
+            //   ),
+            //   child: GridView.builder(
+            //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //         crossAxisCount: 3,
+            //         mainAxisExtent: widthScale * 6.5,
+            //         crossAxisSpacing: widthScale*2,
+            //         mainAxisSpacing: widthScale*2,
+            //       ),
+            //       itemCount: 5,
+            //       shrinkWrap: true,
+            //       physics: const NeverScrollableScrollPhysics(),
+            //       itemBuilder: (BuildContext context, int index){
+            //         return Container(
+            //           decoration: BoxDecoration(
+            //             border: Border.all(color: kWhite),
+            //             borderRadius: BorderRadius.circular(widthScale * 2),
+            //           ),
+            //           child: Center(
+            //             child: Text(
+            //               'Action',
+            //               style: TextStyle(
+            //                 color: kWhite,
+            //                 fontSize: widthScale * 3,
+            //                 fontWeight: FontWeight.w300,
+            //               ),
+            //             ),
+            //           ),
+            //         );
+            //       }
+            //   ),
+            // ),
             Padding(
               padding:  EdgeInsets.only(
+                top: heightScale * 3,
                 left: widthScale * 10,
                 right: widthScale * 10,
               ),
-              child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    mainAxisExtent: widthScale * 6.5,
-                    crossAxisSpacing: widthScale*2,
-                    mainAxisSpacing: widthScale*2,
-                  ),
-                  itemCount: 5,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index){
-                    return Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: kWhite),
-                        borderRadius: BorderRadius.circular(widthScale * 2),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Action',
-                          style: TextStyle(
-                            color: kWhite,
-                            fontSize: widthScale * 3,
-                            fontWeight: FontWeight.w300,
-                          ),
+              child: Wrap(
+                children: [
+                  ...text.map((e) => Container(
+                    margin: EdgeInsets.symmetric(horizontal: widthScale * 1,vertical: widthScale * 1),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: kWhite),
+                      borderRadius: BorderRadius.circular(widthScale * 2),
+                    ),
+                    child: Padding(
+                      padding:  EdgeInsets.all(widthScale * 1.5),
+                      child: Text(
+                        e,
+                        style: TextStyle(
+                          color: kWhite,
+                          fontSize: widthScale * 3,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
-                    );
-                  }
+                    ),
+                  )).toList(),
+                ]
               ),
             ),
             Padding(

@@ -6,6 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:movieapp/screens/bottom_nav_screen.dart';
 import 'package:movieapp/styles/colors.dart';
 import 'package:readmore/readmore.dart';
+import 'review_screen.dart';
 
 class MovieInnerPage extends StatefulWidget {
   const MovieInnerPage({Key? key}) : super(key: key);
@@ -370,7 +371,79 @@ class _MovieInnerPageState extends State<MovieInnerPage> {
                 },
               ),
             ),
-            //this is my area
+
+            //this is my area(Tharaka)
+           Container(
+             height: height,
+             child:  ListView.separated(
+                 separatorBuilder: (BuildContext context, int index) {
+                   return SizedBox(
+                     height: widthScale * 5,
+                   );
+                 },
+                 itemCount: 10,
+                 shrinkWrap: true,
+                 physics: NeverScrollableScrollPhysics(),
+                 itemBuilder: (BuildContext context, int index){
+                   return Padding(
+                     padding:  EdgeInsets.only(
+                       left: widthScale*5,
+                       right: widthScale*5,
+                     ),
+                     child: Container(
+                       decoration: BoxDecoration(
+                           border: Border.all(color: kWhite.withOpacity(0.5)),
+                           borderRadius: BorderRadius.circular(widthScale*5)
+                       ),
+                       child: Row(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+                           Padding(
+                             padding:  EdgeInsets.only(
+                               left: widthScale*2,
+                               right: widthScale*3,
+                               top: heightScale*1,
+                               bottom: heightScale*3,
+                             ),
+                             child: CircleAvatar(
+                               backgroundImage: AssetImage("images/cover3.jpg"),
+                               radius: 25,
+                             ),
+                           ),
+                           Container(
+                             width: widthScale*65,
+                             child: Column(
+                               crossAxisAlignment: CrossAxisAlignment.start,
+                               children: [
+                                 Padding(
+                                   padding:  EdgeInsets.only(
+                                     top: heightScale*1,
+                                     bottom: heightScale*1.5,
+                                   ),
+                                   child: Text("Tharaka",style: TextStyle(
+                                     color: kWhite,
+                                     fontWeight: FontWeight.w900,
+
+
+                                   ),),
+                                 ),
+                                 Text("Hello world Hello world Hello world Hello world Hello world Hello world Hello world",style: TextStyle(
+                                   color: kWhite
+                                 ),),
+                               ],
+                             ),
+                           ),
+
+                         ],
+                       ),
+                     ),
+                   );
+                 }
+             ),
+           ),
+            Text("Add a review",style: TextStyle(
+              color: kWhite,
+            ),),
             SizedBox(
               height: heightScale * 10,
             ),

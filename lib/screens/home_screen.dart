@@ -137,7 +137,7 @@ class _HomeState extends State<Home> {
                      onTap: (){
                        Navigator.push(
                            context,
-                           MaterialPageRoute(builder: (_) => MovieInnerPage())
+                           MaterialPageRoute(builder: (_) => const MovieInnerPage(movieID: "100",))
                        );
                      },
                      child: Container(

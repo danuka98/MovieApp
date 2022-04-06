@@ -15,11 +15,14 @@ dependencies:
   cupertino_icons: ^1.0.2
   shared_preferences: ^2.0.7
   provider: ^6.0.1
-  http: any
+  http: ^0.13.4
   carousel_slider: ^4.0.0
   animated_bottom_navigation_bar: ^0.3.2
   readmore: ^2.1.0
   flutter_rating_bar: ^4.0.0
+  youtube_player_flutter: ^8.0.0
+  share_plus: ^4.0.3
+
 
 
 

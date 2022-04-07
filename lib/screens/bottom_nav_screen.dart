@@ -4,6 +4,7 @@ import 'package:movieapp/screens/home_screen.dart';
 import 'package:movieapp/screens/profile_screen.dart';
 import 'package:movieapp/screens/search_screen.dart';
 import 'package:movieapp/styles/colors.dart';
+import 'package:movieapp/screens/UserManagement/profile.dart';
 
 class BottomNavScreen extends StatefulWidget {
   const BottomNavScreen({Key? key}) : super(key: key);
@@ -14,8 +15,7 @@ class BottomNavScreen extends StatefulWidget {
 
 class _BottomNavScreenState extends State<BottomNavScreen> {
   int _pageIndex = 0;
-  late double widthScale,heightScale;
-
+  late double widthScale, heightScale;
 
   @override
   Widget build(BuildContext context) {
@@ -54,17 +54,17 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
             ),
           ],
           selectedLabelStyle: TextStyle(
-                fontSize: widthScale * 4,
-                fontWeight: FontWeight.bold,
-              ),
+            fontSize: widthScale * 4,
+            fontWeight: FontWeight.bold,
+          ),
           currentIndex: _pageIndex,
           backgroundColor: kDarkLight,
           selectedItemColor: kWhite,
           unselectedItemColor: kGrey.withOpacity(0.6),
           onTap: (value) {
-           setState(() {
-             _pageIndex = value;
-           });
+            setState(() {
+              _pageIndex = value;
+            });
           },
         ),
       ),
@@ -72,25 +72,32 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     );
   }
 
-  Widget getBody(){
+  Widget getBody() {
     List<Widget> pages = [
-      _pageIndex == 0 ? Container(
-        alignment: Alignment.center,
-        child: const Home(),
-      ) : Container(),
-      _pageIndex == 1 ? Container(
-        alignment: Alignment.center,
-        child: const SearchScreen(),
-      ) : Container(),
-      _pageIndex == 2 ? Container(
-        alignment: Alignment.center,
-        child: const FavoriteScreen(),
-      ) : Container(),
-      _pageIndex == 3 ? Container(
-        alignment: Alignment.center,
-        child: const ProfileScreen(),
-      ) : Container(),
-
+      _pageIndex == 0
+          ? Container(
+              alignment: Alignment.center,
+              child: const Home(),
+            )
+          : Container(),
+      _pageIndex == 1
+          ? Container(
+              alignment: Alignment.center,
+              child: const SearchScreen(),
+            )
+          : Container(),
+      _pageIndex == 2
+          ? Container(
+              alignment: Alignment.center,
+              child: const FavoriteScreen(),
+            )
+          : Container(),
+      _pageIndex == 3
+          ? Container(
+              alignment: Alignment.center,
+              child: const ProfilePage(),
+            )
+          : Container(),
     ];
     return IndexedStack(
       index: _pageIndex,

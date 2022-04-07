@@ -138,7 +138,7 @@ class _PurchaseDetailsState extends State<PurchaseDetails> {
                                 children: [
                                   Text(
                                     "${purchaseMovie[index]["price"]}",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: kDark,
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold),
@@ -147,8 +147,8 @@ class _PurchaseDetailsState extends State<PurchaseDetails> {
                                     alignment: Alignment.bottomCenter,
                                     child: Text(
                                       "${purchaseMovie[index]["name"]}",
-                                      style:
-                                          TextStyle(color: kDark, fontSize: 25),
+                                      style: const TextStyle(
+                                          color: kDark, fontSize: 25),
                                     ),
                                   ),
                                 ],
@@ -181,7 +181,7 @@ class _PurchaseDetailsState extends State<PurchaseDetails> {
                           children: [
                             Text(
                               "${purchaseMovie[index]["price"]}",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: kWhite,
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold),
@@ -190,7 +190,8 @@ class _PurchaseDetailsState extends State<PurchaseDetails> {
                               alignment: Alignment.bottomCenter,
                               child: Text(
                                 "${purchaseMovie[index]["name"]}",
-                                style: TextStyle(color: kWhite, fontSize: 25),
+                                style: const TextStyle(
+                                    color: kWhite, fontSize: 25),
                               ),
                             ),
                           ],
@@ -208,5 +209,3 @@ class _PurchaseDetailsState extends State<PurchaseDetails> {
     );
   }
 }
-
-//

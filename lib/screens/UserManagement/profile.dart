@@ -25,6 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String email = "";
   String password = "";
   String mobileNumber = "";
+  String proImage = "images/as.png";
 
   SharedPref sharedPref = SharedPref();
 
@@ -54,11 +55,13 @@ class _ProfilePageState extends State<ProfilePage> {
       if (response.statusCode == 200) {
         Map<String, dynamic> responseBody = json.decode(response.body);
         UserDetails userDetails = UserDetails.fromJson(responseBody);
+        print(userDetails.user?.avatar?.url);
         setState(() {
           firstName = userDetails.user?.firstName as String;
           lastName = userDetails.user?.lastName as String;
           email = userDetails.user?.email as String;
           mobileNumber = userDetails.user?.phoneNumber.toString() as String;
+          proImage = userDetails.user?.avatar?.url as String;
         });
       }
     } catch (e) {
@@ -154,19 +157,19 @@ class _ProfilePageState extends State<ProfilePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                          width: 140.0,
-                          height: 140.0,
-                          decoration: const BoxDecoration(
+                          width: 200.0,
+                          height: 200.0,
+                          decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: ExactAssetImage('images/as.png'),
+                              image: NetworkImage(proImage),
                               fit: BoxFit.cover,
                             ),
                           )),
                     ],
                   ),
                   Padding(
-                      padding: const EdgeInsets.only(top: 90.0, right: 100.0),
+                      padding: const EdgeInsets.only(top: 150.0, right: 150.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const <Widget>[
@@ -334,46 +337,46 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                     ),
-                    !_status ? _getActionButtons() : Container(),
+                    !_status
+                        ? _getActionButtons()
+                        : Padding(
+                            padding: EdgeInsets.only(
+                              top: widthScale * 5,
+                              left: widthScale * 15,
+                              right: widthScale * 15,
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => const PurchaseDetails()),
+                                );
+                              },
+                              child: Container(
+                                height: heightScale * 4,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    gradient: const LinearGradient(colors: [
+                                      kDarkGrey,
+                                      kWhite,
+                                    ])),
+                                child: Center(
+                                  child: Text(
+                                    "Purchase History",
+                                    style: TextStyle(
+                                        fontSize: widthScale * 4,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                   ],
                 ),
               ),
             ),
-            _status
-                ? Padding(
-                    padding: EdgeInsets.only(
-                      left: widthScale * 15,
-                      right: widthScale * 15,
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const PurchaseDetails()),
-                        );
-                      },
-                      child: Container(
-                        height: heightScale * 4,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            gradient: const LinearGradient(colors: [
-                              kDarkGrey,
-                              kWhite,
-                            ])),
-                        child: Center(
-                          child: Text(
-                            "Purchase History",
-                            style: TextStyle(
-                                fontSize: widthScale * 4,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                : Container(),
           ],
         ),
       ),

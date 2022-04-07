@@ -23,6 +23,7 @@ class UserDetails {
 }
 
 class User {
+  Avatar? avatar;
   String? role;
   bool? verifiedAccount;
   String? sId;
@@ -35,18 +36,21 @@ class User {
   String? createdAt;
 
   User(
-      {this.role,
-        this.verifiedAccount,
-        this.sId,
-        this.firstName,
-        this.lastName,
-        this.email,
-        this.password,
-        this.birthday,
-        this.phoneNumber,
-        this.createdAt});
+      {this.avatar,
+      this.role,
+      this.verifiedAccount,
+      this.sId,
+      this.firstName,
+      this.lastName,
+      this.email,
+      this.password,
+      this.birthday,
+      this.phoneNumber,
+      this.createdAt});
 
   User.fromJson(Map<String, dynamic> json) {
+    avatar =
+        json['avatar'] != null ? new Avatar.fromJson(json['avatar']) : null;
     role = json['role'];
     verifiedAccount = json['verifiedAccount'];
     sId = json['_id'];
@@ -61,6 +65,9 @@ class User {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.avatar != null) {
+      data['avatar'] = this.avatar!.toJson();
+    }
     data['role'] = this.role;
     data['verifiedAccount'] = this.verifiedAccount;
     data['_id'] = this.sId;
@@ -71,6 +78,25 @@ class User {
     data['birthday'] = this.birthday;
     data['phoneNumber'] = this.phoneNumber;
     data['createdAt'] = this.createdAt;
+    return data;
+  }
+}
+
+class Avatar {
+  String? publicId;
+  String? url;
+
+  Avatar({this.publicId, this.url});
+
+  Avatar.fromJson(Map<String, dynamic> json) {
+    publicId = json['public_id'];
+    url = json['url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['public_id'] = this.publicId;
+    data['url'] = this.url;
     return data;
   }
 }

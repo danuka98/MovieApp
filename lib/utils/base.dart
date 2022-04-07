@@ -5,4 +5,5 @@ class Base{
   static String baseURL = baseTestURL;
 
   static String getMovieByID = baseURL + "movieDetails/getMoviesByID";
+  static String getMovies = baseURL + "movieDetails/getAllMovies";
 }

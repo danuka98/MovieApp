@@ -1,5 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:movieapp/model/all_movie_details.dart';
 import 'package:movieapp/styles/colors.dart';
+import 'package:movieapp/utils/base.dart';
+import 'package:http/http.dart' as http;
+
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -10,7 +16,46 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   late double widthScale,heightScale,width,height;
+  List<MovieDetails> movieList = [];
+  List<MovieDetails> searchMovieList = [];
+  bool _isLoading = true;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getSearchMovieDetails();
+  }
+
+  getSearchMovieDetails() async{
+    String url = Base.getMovies;
+
+    try{
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          "Accept": "application/json",
+        },
+      );
+      Map<String, dynamic> responseBody = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        Search searchDetails = Search.fromJson(responseBody);
+        print("======================Works=============================");
+        for (int i = 0; i < searchDetails.movieDetails!.length; i++) {
+          setState(() {
+            movieList.add(searchDetails.movieDetails![i]);
+            searchMovieList = movieList;
+            _isLoading = false;
+          });
+        }
+      }else{
+        print("something went wrong");
+      }
+    }catch(e){
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +63,6 @@ class _SearchScreenState extends State<SearchScreen> {
     heightScale = MediaQuery.of(context).size.height / 100;
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-
 
     return Scaffold(
       backgroundColor: kDark,
@@ -60,6 +104,13 @@ class _SearchScreenState extends State<SearchScreen> {
                         height: widthScale*25,
                         //color: Colors.white,
                         child: TextField(
+                          style: TextStyle(
+                              color: kWhite,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "Poppins",
+                              fontStyle:  FontStyle.normal,
+                              fontSize: widthScale * 5
+                          ),
                           decoration: InputDecoration(
                             hintText: 'Search',
                             hintStyle: TextStyle(
@@ -75,10 +126,10 @@ class _SearchScreenState extends State<SearchScreen> {
                           onChanged: (text){
                             text = text.toLowerCase();
                             setState(() {
-                              // faqDisplay = faq.where((que) {
-                              //   var queTitle = que.title!.toLowerCase();
-                              //   return queTitle.contains(text);
-                              // }).toList();
+                              searchMovieList = movieList.where((que) {
+                                var queTitle = que.movieName!.toLowerCase();
+                                return queTitle.contains(text);
+                              }).toList();
                             });
                           },
                         ),
@@ -97,7 +148,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
 
-            Container(
+            _isLoading? CircularProgressIndicator(color: kWhite) : Container(
               height: height,
               child: ListView.separated(
                 separatorBuilder: (BuildContext context, int index) {
@@ -105,7 +156,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     height: widthScale * 5,
                   );
                 },
-                itemCount: 10,
+                itemCount: searchMovieList.length,
                 itemBuilder: (BuildContext context, int index){
                   return Padding(
                     padding: EdgeInsets.only(
@@ -124,8 +175,8 @@ class _SearchScreenState extends State<SearchScreen> {
                             width: widthScale * 20,
                             height: widthScale * 25,
                             decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                image: AssetImage("images/cover3.jpg"),
+                              image: DecorationImage(
+                                image: NetworkImage(searchMovieList[index].coverImage??""),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: BorderRadius.only(
@@ -146,7 +197,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 SizedBox(
                                   width: widthScale * 55,
                                   child: Text(
-                                    'TitleTitleTitleTitleTitleTitleTitleTitleTitle',
+                                    searchMovieList[index].movieName??"",
                                     style: TextStyle(
                                       fontSize: widthScale * 4,
                                       color: kWhite,
@@ -163,7 +214,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   child: Row(
                                     children: [
                                       Text(
-                                        '8/10',
+                                        '${searchMovieList[index].rate}/10',
                                         style: TextStyle(
                                           color: Colors.green,
                                           fontSize: widthScale * 3.5,
@@ -182,7 +233,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                           right: widthScale * 5,
                                         ),
                                         child: Text(
-                                          '2020',
+                                          "${searchMovieList[index].movieYear}",
                                           style: TextStyle(
                                             color: kGrey,
                                             fontSize: widthScale * 3.5,

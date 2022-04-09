@@ -8,4 +8,6 @@ const Color kGrey = Colors.grey;
 const Color kAmber = Colors.amber;
 const Color kBlue = Colors.blue;
 const Color kGreen = Colors.green;
+const kPurple = Color(0xff8d01f7);
+
 

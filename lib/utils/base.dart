@@ -6,4 +6,7 @@ class Base{
 
   static String getMovieByID = baseURL + "movieDetails/getMoviesByID";
   static String getMovies = baseURL + "movieDetails/getAllMovies";
+  static String addFavorite = baseURL + "movieDetails/addFavorite";
+  static String getFavorite = baseURL + "movieDetails/getFavoriteMovie";
+  static String getHome = baseURL + "movieDetails/getHome";
 }

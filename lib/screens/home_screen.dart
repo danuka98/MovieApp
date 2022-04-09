@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:movieapp/model/getHome.dart';
 import 'package:movieapp/screens/movie_inner_screen.dart';
 import 'package:movieapp/styles/colors.dart';
+import 'package:movieapp/utils/base.dart';
+import 'package:http/http.dart' as http;
+
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -23,6 +29,74 @@ class _HomeState extends State<Home> {
 
   final CarouselController _controller = CarouselController();
   int _current = 0;
+  List<Map> actionList = [];
+  List<Map> comedyList = [];
+  List<Map> dramaList = [];
+  List<Map> slideShow = [];
+  bool isLoading = true;
+
+
+  getHomeDetails() async{
+    String url = Base.getHome;
+
+    try{
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          "Accept": "application/json",
+        },
+      );
+      Map<String, dynamic> responseBody = json.decode(response.body);
+
+      setState(() {
+        isLoading = false;
+      });
+      if (response.statusCode == 200) {
+        GetHome homeData = GetHome.fromJson(responseBody);
+        print("======================Works=============================");
+
+        homeData.movieCategories?.action?.forEach((element) {
+          actionList.add({
+           "movieID" : element.movieID,
+            "image" : element.coverImage
+          });
+        });
+
+        homeData.movieCategories?.comedy?.forEach((element) {
+          comedyList.add({
+            "movieID" : element.movieID,
+            "image" : element.coverImage
+          });
+        });
+
+        homeData.movieCategories?.drama?.forEach((element) {
+          dramaList.add({
+            "movieID" : element.movieID,
+            "image" : element.coverImage
+          });
+        });
+
+        homeData.movieCategories?.slideShow?.forEach((element) {
+          slideShow.add({
+            "movieID" : element.slideShowMovie?.movieID,
+            "image" : element.slideShowMovie?.image
+          });
+        });
+      }else{
+        print("something went wrong");
+      }
+    }catch(e){
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getHomeDetails();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +107,7 @@ class _HomeState extends State<Home> {
 
     return Scaffold(
       backgroundColor: kDark,
-      body: SingleChildScrollView(
+      body: isLoading? Center(child: CircularProgressIndicator(color: kWhite,)) : SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -43,12 +117,12 @@ class _HomeState extends State<Home> {
               children: [
                 CarouselSlider(
                   items: <Widget>[
-                    for (var i = 0; i < imageList.length; i++)
+                    for (var i = 0; i < slideShow.length; i++)
                       Container(
                         width: width,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage(imageList[i]),
+                            image: NetworkImage(slideShow[i]["image"]??""),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -84,7 +158,7 @@ class _HomeState extends State<Home> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: imageList.asMap().entries.map((entry) {
+                  children: slideShow.asMap().entries.map((entry) {
                     return GestureDetector(
                       onTap: () => _controller.animateToPage(entry.key),
                       child: Container(
@@ -125,7 +199,7 @@ class _HomeState extends State<Home> {
                   right: widthScale * 6
                 ),
                 shrinkWrap: true,
-                itemCount: 6,
+                itemCount: slideShow.length,
                 scrollDirection: Axis.horizontal,
                   separatorBuilder: (BuildContext context, int index) {
                     return SizedBox(
@@ -144,8 +218,8 @@ class _HomeState extends State<Home> {
                        width: widthScale * 40,
                        height: widthScale * 20,
                        decoration: BoxDecoration(
-                         image: const DecorationImage(
-                           image: AssetImage("images/cover3.jpg"),
+                         image:  DecorationImage(
+                           image: NetworkImage(slideShow[index]["image"]??""),
                            fit: BoxFit.cover,
                          ),
                          borderRadius: BorderRadius.circular(widthScale * 5),
@@ -180,7 +254,7 @@ class _HomeState extends State<Home> {
                       right: widthScale * 6
                   ),
                   shrinkWrap: true,
-                  itemCount: 6,
+                  itemCount: actionList.length,
                   scrollDirection: Axis.horizontal,
                   separatorBuilder: (BuildContext context, int index) {
                     return SizedBox(
@@ -188,15 +262,23 @@ class _HomeState extends State<Home> {
                     );
                   },
                   itemBuilder: (BuildContext context, int index){
-                    return Container(
-                      width: widthScale * 40,
-                      height: widthScale * 20,
-                      decoration: BoxDecoration(
-                        image: const DecorationImage(
-                          image: AssetImage("images/cover4.jpg"),
-                          fit: BoxFit.cover,
+                    return GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => MovieInnerPage(movieID: "${actionList[index]["movieID"]}",))
+                        );
+                      },
+                      child: Container(
+                        width: widthScale * 40,
+                        height: widthScale * 20,
+                        decoration: BoxDecoration(
+                          image:  DecorationImage(
+                            image: NetworkImage(actionList[index]["image"]),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(widthScale * 5),
                         ),
-                        borderRadius: BorderRadius.circular(widthScale * 5),
                       ),
                     );
                   }
@@ -227,7 +309,7 @@ class _HomeState extends State<Home> {
                       right: widthScale * 6
                   ),
                   shrinkWrap: true,
-                  itemCount: 6,
+                  itemCount: comedyList.length,
                   scrollDirection: Axis.horizontal,
                   separatorBuilder: (BuildContext context, int index) {
                     return SizedBox(
@@ -239,8 +321,8 @@ class _HomeState extends State<Home> {
                       width: widthScale * 40,
                       height: widthScale * 20,
                       decoration: BoxDecoration(
-                        image: const DecorationImage(
-                          image: AssetImage("images/cover3.jpg"),
+                        image:  DecorationImage(
+                          image: NetworkImage(comedyList[index]["image"]),
                           fit: BoxFit.cover,
                         ),
                         borderRadius: BorderRadius.circular(widthScale * 5),
@@ -274,7 +356,7 @@ class _HomeState extends State<Home> {
                       right: widthScale * 6
                   ),
                   shrinkWrap: true,
-                  itemCount: 6,
+                  itemCount: dramaList.length,
                   scrollDirection: Axis.horizontal,
                   separatorBuilder: (BuildContext context, int index) {
                     return SizedBox(
@@ -286,8 +368,8 @@ class _HomeState extends State<Home> {
                       width: widthScale * 40,
                       height: widthScale * 20,
                       decoration: BoxDecoration(
-                        image: const DecorationImage(
-                          image: AssetImage("images/cover2.jpg"),
+                        image:  DecorationImage(
+                          image: NetworkImage(dramaList[index]["image"]),
                           fit: BoxFit.cover,
                         ),
                         borderRadius: BorderRadius.circular(widthScale * 5),

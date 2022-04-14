@@ -50,6 +50,38 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     }
   }
 
+  Future removeFavorite(String id) async {
+    String url = '${Base.addFavorite}/$id';
+
+    try {
+      final response = await http.put(
+        Uri.parse(url),
+        headers: {
+          "Accept": "application/json",
+        },
+
+      );
+      print(response.body);
+      if (response.statusCode == 200) {
+        setState(() {
+          _isLoading = true;
+          getMovie();
+          final snackBar = const SnackBar(
+            content: Text('Remove in Favorite'),
+            backgroundColor: kPurple,
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        });
+      }
+    } catch (e) {
+      print("=================throwing Exception error==================");
+      print("Error: $e");
+      throw Exception("Error On server");
+    }
+  }
+
+
   @override
   void initState() {
     // TODO: implement initState
@@ -75,7 +107,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           ),
         ),
       ),
-      body: _isLoading ? const Center(child: CircularProgressIndicator(color: kWhite,)) : SingleChildScrollView(
+      body: _isLoading ? const Center(child: Text('No Added Favorite',style: TextStyle(color: kWhite),)) : SingleChildScrollView(
         child: Column(
           children: [
             Padding(
@@ -104,6 +136,113 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(builder: (_) => MovieInnerPage(movieID: "${favoriteDetails[index].movieID}",))
+                          );
+                        },
+                        onLongPressUp: (){
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Stack(
+                                alignment: Alignment.bottomCenter,
+                                children: [
+                                  Positioned(
+                                    bottom: heightScale * 6,
+                                    child:  Dismissible(
+                                      key: UniqueKey(),
+                                      onDismissed: (direction){
+                                        setState(() {
+                                          Navigator.pop(context);
+                                        });
+                                      },
+                                      direction: DismissDirection.horizontal,
+                                      child: Dialog(
+                                        insetPadding: EdgeInsets.symmetric(horizontal: widthScale * 4),
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(widthScale*8),
+                                        ),
+                                        backgroundColor: kRed,
+                                        child: Padding(
+                                          padding:  EdgeInsets.only(),
+                                          child: Container(
+                                            width: widthScale * 85,
+                                            height: height / 4.2,
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  height: heightScale * 3,
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: widthScale * 5,
+                                                      right: widthScale * 5
+                                                  ),
+                                                  child: Text(
+                                                      "Are you sure You want to remove this movie ?",
+                                                      style: TextStyle(
+                                                          color:  kWhite,
+                                                          fontWeight: FontWeight.w400,
+                                                          fontFamily: "Poppins",
+                                                          fontStyle:  FontStyle.normal,
+                                                          fontSize: widthScale * 5
+                                                      ),
+                                                      textAlign: TextAlign.center
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                    left: widthScale * 10,
+                                                    right: widthScale * 10,
+                                                    top: heightScale * 5,
+                                                  ),
+                                                  child: GestureDetector(
+                                                    onTap: (){
+                                                      Navigator.pop(context);
+                                                      removeFavorite(favoriteDetails[index].movieID??"");
+                                                    },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(color: kWhite),
+                                                        borderRadius: BorderRadius.circular(widthScale*4),
+                                                      ),
+                                                      child: Padding(
+                                                        padding: EdgeInsets.only(
+                                                          top: heightScale * 1,
+                                                          bottom: heightScale * 1,
+                                                          left: widthScale * 10,
+                                                          right: widthScale * 10,
+                                                        ),
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: <Widget>[
+                                                            Text(
+                                                                "Yes, Delete",
+                                                                style: TextStyle(
+                                                                  color:  kWhite,
+                                                                  fontWeight: FontWeight.w300,
+                                                                  fontFamily: "Poppins",
+                                                                  fontStyle:  FontStyle.normal,
+                                                                  fontSize: widthScale * 5,
+                                                                )
+                                                            ),
+                                                            Icon(Icons.delete_outline_sharp,size: widthScale * 5,color: kWhite,)
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              );
+                            },
                           );
                         },
                         child: Container(

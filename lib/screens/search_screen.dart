@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:movieapp/model/all_movie_details.dart';
+import 'package:movieapp/screens/movie_inner_screen.dart';
 import 'package:movieapp/styles/colors.dart';
 import 'package:movieapp/utils/base.dart';
 import 'package:http/http.dart' as http;
@@ -158,109 +159,117 @@ class _SearchScreenState extends State<SearchScreen> {
                 },
                 itemCount: searchMovieList.length,
                 itemBuilder: (BuildContext context, int index){
-                  return Padding(
-                    padding: EdgeInsets.only(
-                      left: widthScale * 5,
-                      right: widthScale * 5,
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: kGrey.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(widthScale * 5),
+                  return GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => MovieInnerPage(movieID: "${searchMovieList[index].movieID}",))
+                      );
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: widthScale * 5,
+                        right: widthScale * 5,
                       ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: widthScale * 20,
-                            height: widthScale * 25,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(searchMovieList[index].coverImage??""),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(widthScale * 5),
-                                bottomLeft: Radius.circular(widthScale * 5),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: widthScale * 3,
-                              right: widthScale * 3,
-                              top: widthScale * 3,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: widthScale * 55,
-                                  child: Text(
-                                    searchMovieList[index].movieName??"",
-                                    style: TextStyle(
-                                      fontSize: widthScale * 4,
-                                      color: kWhite,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: kGrey.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(widthScale * 5),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: widthScale * 20,
+                              height: widthScale * 25,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(searchMovieList[index].coverImage??""),
+                                  fit: BoxFit.cover,
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: widthScale * 2,
-                                    bottom: widthScale * 2,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(widthScale * 5),
+                                  bottomLeft: Radius.circular(widthScale * 5),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                left: widthScale * 3,
+                                right: widthScale * 3,
+                                top: widthScale * 3,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: widthScale * 55,
+                                    child: Text(
+                                      searchMovieList[index].movieName??"",
+                                      style: TextStyle(
+                                        fontSize: widthScale * 4,
+                                        color: kWhite,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        '${searchMovieList[index].rate}/10',
-                                        style: TextStyle(
-                                          color: Colors.green,
-                                          fontSize: widthScale * 3.5,
-                                          fontWeight: FontWeight.bold
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          left: widthScale * 1
-                                        ),
-                                        child: Icon(Icons.star,color: Colors.amber,size: widthScale * 4.2,),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          left: widthScale * 5,
-                                          right: widthScale * 5,
-                                        ),
-                                        child: Text(
-                                          "${searchMovieList[index].movieYear}",
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: widthScale * 2,
+                                      bottom: widthScale * 2,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          '${searchMovieList[index].rate}/10',
                                           style: TextStyle(
-                                            color: kGrey,
+                                            color: Colors.green,
                                             fontSize: widthScale * 3.5,
                                             fontWeight: FontWeight.bold
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: widthScale * 55,
-                                  child: Text(
-                                    'Type',
-                                    style: TextStyle(
-                                      fontSize: widthScale * 3.5,
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.w500,
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                            left: widthScale * 1
+                                          ),
+                                          child: Icon(Icons.star,color: Colors.amber,size: widthScale * 4.2,),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                            left: widthScale * 5,
+                                            right: widthScale * 5,
+                                          ),
+                                          child: Text(
+                                            "${searchMovieList[index].movieYear}",
+                                            style: TextStyle(
+                                              color: kGrey,
+                                              fontSize: widthScale * 3.5,
+                                              fontWeight: FontWeight.bold
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                ),
+                                  SizedBox(
+                                    width: widthScale * 55,
+                                    child: Text(
+                                      'Director : ${searchMovieList[index].movieDirector??""}',
+                                      style: TextStyle(
+                                        fontSize: widthScale * 3.5,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
 
-                              ],
-                            ),
-                          )
-                        ],
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   );

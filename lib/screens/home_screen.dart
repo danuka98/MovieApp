@@ -33,6 +33,8 @@ class _HomeState extends State<Home> {
   List<Map> comedyList = [];
   List<Map> dramaList = [];
   List<Map> slideShow = [];
+  List<Map> horrorList = [];
+  List<Map> romanceList = [];
   bool isLoading = true;
 
 
@@ -82,6 +84,21 @@ class _HomeState extends State<Home> {
             "image" : element.slideShowMovie?.image
           });
         });
+
+        homeData.movieCategories?.romance?.forEach((element) {
+          romanceList.add({
+            "movieID" : element.movieID,
+            "image" : element.coverImage
+          });
+        });
+
+        homeData.movieCategories?.horror?.forEach((element) {
+          horrorList.add({
+            "movieID" : element.movieID,
+            "image" : element.coverImage
+          });
+        });
+
       }else{
         print("something went wrong");
       }
@@ -209,10 +226,10 @@ class _HomeState extends State<Home> {
                 itemBuilder: (BuildContext context, int index){
                    return GestureDetector(
                      onTap: (){
-                       Navigator.push(
-                           context,
-                           MaterialPageRoute(builder: (_) => const MovieInnerPage(movieID: "100",))
-                       );
+                       // Navigator.push(
+                       //     context,
+                       //     MaterialPageRoute(builder: (_) => const MovieInnerPage(movieID: "100",))
+                       // );
                      },
                      child: Container(
                        width: widthScale * 40,
@@ -264,7 +281,7 @@ class _HomeState extends State<Home> {
                   itemBuilder: (BuildContext context, int index){
                     return GestureDetector(
                       onTap: (){
-                        Navigator.push(
+                       Navigator.push(
                             context,
                             MaterialPageRoute(builder: (_) => MovieInnerPage(movieID: "${actionList[index]["movieID"]}",))
                         );
@@ -317,15 +334,23 @@ class _HomeState extends State<Home> {
                     );
                   },
                   itemBuilder: (BuildContext context, int index){
-                    return Container(
-                      width: widthScale * 40,
-                      height: widthScale * 20,
-                      decoration: BoxDecoration(
-                        image:  DecorationImage(
-                          image: NetworkImage(comedyList[index]["image"]),
-                          fit: BoxFit.cover,
+                    return GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => MovieInnerPage(movieID: "${comedyList[index]["movieID"]}",))
+                        );
+                      },
+                      child: Container(
+                        width: widthScale * 40,
+                        height: widthScale * 20,
+                        decoration: BoxDecoration(
+                          image:  DecorationImage(
+                            image: NetworkImage(comedyList[index]["image"]),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(widthScale * 5),
                         ),
-                        borderRadius: BorderRadius.circular(widthScale * 5),
                       ),
                     );
                   }
@@ -364,15 +389,23 @@ class _HomeState extends State<Home> {
                     );
                   },
                   itemBuilder: (BuildContext context, int index){
-                    return Container(
-                      width: widthScale * 40,
-                      height: widthScale * 20,
-                      decoration: BoxDecoration(
-                        image:  DecorationImage(
-                          image: NetworkImage(dramaList[index]["image"]),
-                          fit: BoxFit.cover,
+                    return GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => MovieInnerPage(movieID: "${dramaList[index]["movieID"]}",))
+                        );
+                      },
+                      child: Container(
+                        width: widthScale * 40,
+                        height: widthScale * 20,
+                        decoration: BoxDecoration(
+                          image:  DecorationImage(
+                            image: NetworkImage(dramaList[index]["image"]),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(widthScale * 5),
                         ),
-                        borderRadius: BorderRadius.circular(widthScale * 5),
                       ),
                     );
                   }
@@ -403,7 +436,7 @@ class _HomeState extends State<Home> {
                       right: widthScale * 6
                   ),
                   shrinkWrap: true,
-                  itemCount: 6,
+                  itemCount: horrorList.length,
                   scrollDirection: Axis.horizontal,
                   separatorBuilder: (BuildContext context, int index) {
                     return SizedBox(
@@ -411,15 +444,23 @@ class _HomeState extends State<Home> {
                     );
                   },
                   itemBuilder: (BuildContext context, int index){
-                    return Container(
-                      width: widthScale * 40,
-                      height: widthScale * 20,
-                      decoration: BoxDecoration(
-                        image: const DecorationImage(
-                          image: AssetImage("images/cover1.jpg"),
-                          fit: BoxFit.cover,
+                    return GestureDetector(
+                      onTap:(){
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => MovieInnerPage(movieID: "${horrorList[index]["movieID"]}",))
+                        );
+                      },
+                      child: Container(
+                        width: widthScale * 40,
+                        height: widthScale * 20,
+                        decoration: BoxDecoration(
+                          image:  DecorationImage(
+                            image: NetworkImage(horrorList[index]["image"]),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(widthScale * 5),
                         ),
-                        borderRadius: BorderRadius.circular(widthScale * 5),
                       ),
                     );
                   }
@@ -454,7 +495,7 @@ class _HomeState extends State<Home> {
                         right: widthScale * 6
                     ),
                     shrinkWrap: true,
-                    itemCount: 6,
+                    itemCount: romanceList.length,
                     scrollDirection: Axis.horizontal,
                     separatorBuilder: (BuildContext context, int index) {
                       return SizedBox(
@@ -462,15 +503,23 @@ class _HomeState extends State<Home> {
                       );
                     },
                     itemBuilder: (BuildContext context, int index){
-                      return Container(
-                        width: widthScale * 40,
-                        height: widthScale * 20,
-                        decoration: BoxDecoration(
-                          image: const DecorationImage(
-                            image: AssetImage("images/cover5.jpg"),
-                            fit: BoxFit.cover,
+                      return GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => MovieInnerPage(movieID: "${romanceList[index]["movieID"]}",))
+                          );
+                        },
+                        child: Container(
+                          width: widthScale * 40,
+                          height: widthScale * 20,
+                          decoration: BoxDecoration(
+                            image:  DecorationImage(
+                              image: NetworkImage(romanceList[index]["image"]),
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius: BorderRadius.circular(widthScale * 5),
                           ),
-                          borderRadius: BorderRadius.circular(widthScale * 5),
                         ),
                       );
                     }

@@ -6,6 +6,7 @@ class MovieProvider with ChangeNotifier{
   MovieDetails movieDetails = MovieDetails();
   bool isLoading = false;
   bool isFavorite = false;
+  String movieID = "";
 
   getMovieDetails(String id) async{
     isLoading = true;
@@ -16,6 +17,11 @@ class MovieProvider with ChangeNotifier{
 
   set saveFavorite(bool fav){
     isFavorite = fav;
+    notifyListeners();
+  }
+
+  set saveMovieID(String id){
+    movieID = id;
     notifyListeners();
   }
 }

@@ -56,18 +56,12 @@ class _MovieInnerPageState extends State<MovieInnerPage> {
         );
         print(response.body);
         if (response.statusCode == 200) {
-          SnackBar(
-            duration: Duration(seconds: 2),
-            content: Text(
-              isFavorite ? "Remove Favorite" : "Added to Favorite",
-              textScaleFactor: 1,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: widthScale*8,
-                  fontFamily: 'Questrial'),
-            ),
+          final snackBar =  SnackBar(
+            content: Text(isFavorite ? 'Added to Favorite' : "Remove in Favorite"  ),
             backgroundColor: kPurple,
           );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       } catch (e) {
         print("=================throwing Exception error==================");
@@ -103,6 +97,7 @@ class _MovieInnerPageState extends State<MovieInnerPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        ///back image
                         Stack(
                           children: [
                             Container(
@@ -182,10 +177,12 @@ class _MovieInnerPageState extends State<MovieInnerPage> {
                             ),
                           ],
                         ),
+
+                        ///
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.favorite,color: kWhite,size: widthScale * 7,),
+                            Icon(Icons.favorite,color: isFavorite ? kRed : kWhite,size: widthScale * 7,),
                             Padding(
                               padding: EdgeInsets.only(
                                 left: widthScale * 8,
@@ -211,6 +208,7 @@ class _MovieInnerPageState extends State<MovieInnerPage> {
                           ],
                         ),
 
+                        ///wrap categories
                         Padding(
                           padding:  EdgeInsets.only(
                             top: heightScale * 3,
@@ -242,6 +240,8 @@ class _MovieInnerPageState extends State<MovieInnerPage> {
                             ),
                           ),
                         ),
+
+                        ///watch trailer
                         Padding(
                           padding:  EdgeInsets.only(
                             left: widthScale * 4,
@@ -306,6 +306,8 @@ class _MovieInnerPageState extends State<MovieInnerPage> {
                             progressIndicatorColor: Colors.purple,
                           ),
                         ) : Container(),
+
+                        ///add to fav
                         Padding(
                           padding:  EdgeInsets.only(
                             left: widthScale * 4,
@@ -315,13 +317,13 @@ class _MovieInnerPageState extends State<MovieInnerPage> {
                           child: GestureDetector(
                             onTap: (){
                               setState(() {
-                                provider.saveFavorite = !isFavorite;
+                                isFavorite = !isFavorite;
                               });
                               addFavorite(provider.movieDetails.movieDetails1?.movieID??"");
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                color: provider.isFavorite ? kGreen : kGrey.withOpacity(0.2),
+                                color: kGrey.withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(widthScale * 1.5),
                               ),
                               child: Padding(
@@ -338,7 +340,7 @@ class _MovieInnerPageState extends State<MovieInnerPage> {
                                           left: widthScale * 3
                                       ),
                                       child: Text(
-                                        provider.isFavorite ? "Remove Favorite" : 'Add to Favorite',
+                                        'Add to Favorite',
                                         style: TextStyle(
                                           fontSize: widthScale * 4.5,
                                           color: kWhite,
@@ -352,6 +354,8 @@ class _MovieInnerPageState extends State<MovieInnerPage> {
                             ),
                           ),
                         ),
+
+                        ///details
                         Padding(
                           padding: EdgeInsets.only(
                               left: widthScale * 4,
@@ -399,34 +403,8 @@ class _MovieInnerPageState extends State<MovieInnerPage> {
                             ),
                           ),
                         ),
-                        // Padding(
-                        //   padding: EdgeInsets.only(
-                        //       left: widthScale * 4,
-                        //       top: widthScale * 5
-                        //   ),
-                        //   child: Text(
-                        //     'Cast : ',
-                        //     style: TextStyle(
-                        //       fontSize: widthScale * 4,
-                        //       color: kWhite,
-                        //       fontWeight: FontWeight.w500,
-                        //     ),
-                        //   ),
-                        // ),
-                        // Padding(
-                        //   padding: EdgeInsets.only(
-                        //       left: widthScale * 4,
-                        //       top: widthScale * 5
-                        //   ),
-                        //   child: Text(
-                        //     "${provider.movieDetails.movieDetails1.}",
-                        //     style: TextStyle(
-                        //       fontSize: widthScale * 4,
-                        //       color: kWhite,
-                        //       fontWeight: FontWeight.w500,
-                        //     ),
-                        //   ),
-                        // ),
+
+                        ///share
                         Center(
                           child: Padding(
                             padding: EdgeInsets.only(
@@ -468,121 +446,121 @@ class _MovieInnerPageState extends State<MovieInnerPage> {
                         ),
 
                         ///Rate & Review
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: widthScale * 4,
-                            top: heightScale * 4,
-                            bottom: heightScale * 3,
-                          ),
-                          child: Text(
-                            'Rate & Review',
-                            style: TextStyle(
-                              fontSize: widthScale * 5,
-                              color: kWhite,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: RatingBar.builder(
-                            unratedColor: kGrey.withOpacity(0.2),
-                            initialRating: 1,
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => const Icon(
-                              Icons.star,
-                              color: kAmber,
-                            ),
-                            onRatingUpdate: (rating) {
-                              print(rating);
-                            },
-                          ),
-                        ),
-
-                        //this is my area(Tharaka)
-                        SizedBox(
-                          height: height,
-                          child:  ListView.separated(
-                              separatorBuilder: (BuildContext context, int index) {
-                                return SizedBox(
-                                  height: widthScale * 5,
-                                );
-                              },
-                              itemCount: 10,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (BuildContext context, int index){
-                                return Padding(
-                                  padding:  EdgeInsets.only(
-                                    left: widthScale*5,
-                                    right: widthScale*5,
-                                  ),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: kWhite.withOpacity(0.5)),
-                                        borderRadius: BorderRadius.circular(widthScale*5)
-                                    ),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding:  EdgeInsets.only(
-                                            left: widthScale*2,
-                                            right: widthScale*3,
-                                            top: heightScale*1,
-                                            bottom: heightScale*3,
-                                          ),
-                                          child: const CircleAvatar(
-                                            backgroundImage: AssetImage("images/cover3.jpg"),
-                                            radius: 25,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: widthScale*65,
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding:  EdgeInsets.only(
-                                                  top: heightScale*1,
-                                                  bottom: heightScale*1.5,
-                                                ),
-                                                child: const Text(
-                                                  "Tharaka",
-                                                  style: TextStyle(
-                                                    color: kWhite,
-                                                    fontWeight: FontWeight.w900,
-                                                  ),
-                                                ),
-                                              ),
-                                              const Text(
-                                                "Hello world Hello world Hello world Hello world Hello world Hello world Hello world",
-                                                style: TextStyle(
-                                                    color: kWhite
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }
-                          ),
-                        ),
-                        const Text(
-                          "Add a review",
-                          style: TextStyle(
-                            color: kWhite,
-                          ),
-                        ),
-                        SizedBox(
-                          height: heightScale * 10,
-                        ),
+                        // Padding(
+                        //   padding: EdgeInsets.only(
+                        //     left: widthScale * 4,
+                        //     top: heightScale * 4,
+                        //     bottom: heightScale * 3,
+                        //   ),
+                        //   child: Text(
+                        //     'Rate & Review',
+                        //     style: TextStyle(
+                        //       fontSize: widthScale * 5,
+                        //       color: kWhite,
+                        //       fontWeight: FontWeight.w500,
+                        //     ),
+                        //   ),
+                        // ),
+                        // Center(
+                        //   child: RatingBar.builder(
+                        //     unratedColor: kGrey.withOpacity(0.2),
+                        //     initialRating: 1,
+                        //     minRating: 1,
+                        //     direction: Axis.horizontal,
+                        //     allowHalfRating: true,
+                        //     itemCount: 5,
+                        //     itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        //     itemBuilder: (context, _) => const Icon(
+                        //       Icons.star,
+                        //       color: kAmber,
+                        //     ),
+                        //     onRatingUpdate: (rating) {
+                        //       print(rating);
+                        //     },
+                        //   ),
+                        // ),
+                        //
+                        // //this is my area(Tharaka)
+                        // SizedBox(
+                        //   height: height,
+                        //   child:  ListView.separated(
+                        //       separatorBuilder: (BuildContext context, int index) {
+                        //         return SizedBox(
+                        //           height: widthScale * 5,
+                        //         );
+                        //       },
+                        //       itemCount: 10,
+                        //       shrinkWrap: true,
+                        //       physics: const NeverScrollableScrollPhysics(),
+                        //       itemBuilder: (BuildContext context, int index){
+                        //         return Padding(
+                        //           padding:  EdgeInsets.only(
+                        //             left: widthScale*5,
+                        //             right: widthScale*5,
+                        //           ),
+                        //           child: Container(
+                        //             decoration: BoxDecoration(
+                        //                 border: Border.all(color: kWhite.withOpacity(0.5)),
+                        //                 borderRadius: BorderRadius.circular(widthScale*5)
+                        //             ),
+                        //             child: Row(
+                        //               crossAxisAlignment: CrossAxisAlignment.start,
+                        //               children: [
+                        //                 Padding(
+                        //                   padding:  EdgeInsets.only(
+                        //                     left: widthScale*2,
+                        //                     right: widthScale*3,
+                        //                     top: heightScale*1,
+                        //                     bottom: heightScale*3,
+                        //                   ),
+                        //                   child: const CircleAvatar(
+                        //                     backgroundImage: AssetImage("images/cover3.jpg"),
+                        //                     radius: 25,
+                        //                   ),
+                        //                 ),
+                        //                 SizedBox(
+                        //                   width: widthScale*65,
+                        //                   child: Column(
+                        //                     crossAxisAlignment: CrossAxisAlignment.start,
+                        //                     children: [
+                        //                       Padding(
+                        //                         padding:  EdgeInsets.only(
+                        //                           top: heightScale*1,
+                        //                           bottom: heightScale*1.5,
+                        //                         ),
+                        //                         child: const Text(
+                        //                           "Tharaka",
+                        //                           style: TextStyle(
+                        //                             color: kWhite,
+                        //                             fontWeight: FontWeight.w900,
+                        //                           ),
+                        //                         ),
+                        //                       ),
+                        //                       const Text(
+                        //                         "Hello world Hello world Hello world Hello world Hello world Hello world Hello world",
+                        //                         style: TextStyle(
+                        //                             color: kWhite
+                        //                         ),
+                        //                       ),
+                        //                     ],
+                        //                   ),
+                        //                 ),
+                        //               ],
+                        //             ),
+                        //           ),
+                        //         );
+                        //       }
+                        //   ),
+                        // ),
+                        // const Text(
+                        //   "Add a review",
+                        //   style: TextStyle(
+                        //     color: kWhite,
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   height: heightScale * 10,
+                        // ),
                       ],
                     ),
                   );

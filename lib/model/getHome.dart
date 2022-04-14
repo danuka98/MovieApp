@@ -39,8 +39,8 @@ class MovieCategories {
   List<Action>? action;
   List<Comedy>? comedy;
   List<Drama>? drama;
-  List<Action>? horror;
-  List<Action>? romance;
+  List<Horror>? horror;
+  List<Romance>? romance;
   List<SlideShow>? slideShow;
 
   MovieCategories(
@@ -70,18 +70,18 @@ class MovieCategories {
         drama!.add(new Drama.fromJson(v));
       });
     }
-    // if (json['Horror'] != null) {
-    //   horror = <Null>[];
-    //   json['Horror'].forEach((v) {
-    //     horror!.add(new Null.fromJson(v));
-    //   });
-    // }
-    // if (json['Romance'] != null) {
-    //   romance = <Null>[];
-    //   json['Romance'].forEach((v) {
-    //     romance!.add(new Null.fromJson(v));
-    //   });
-    // }
+    if (json['Horror'] != null) {
+      horror = <Horror>[];
+      json['Horror'].forEach((v) {
+        horror!.add(new Horror.fromJson(v));
+      });
+    }
+    if (json['Romance'] != null) {
+      romance = <Romance>[];
+      json['Romance'].forEach((v) {
+        romance!.add(new Romance.fromJson(v));
+      });
+    }
     if (json['slideShow'] != null) {
       slideShow = <SlideShow>[];
       json['slideShow'].forEach((v) {
@@ -281,6 +281,144 @@ class Drama {
         this.iV});
 
   Drama.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    movieID = json['movieID'];
+    coverImage = json['coverImage'];
+    movieName = json['movieName'];
+    isFavorite = json['isFavorite'];
+    rate = json['rate'];
+    movieYear = json['movieYear'];
+    movieTrailerLink = json['movieTrailerLink'];
+    movieDescription = json['movieDescription'];
+    movieDirector = json['movieDirector'];
+    // if (json['movieCategories'] != null) {
+    //   movieCategories = <MovieCategories>[];
+    //   json['movieCategories'].forEach((v) {
+    //     movieCategories!.add(new MovieCategories.fromJson(v));
+    //   });
+    // }
+    iV = json['__v'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['movieID'] = this.movieID;
+    data['coverImage'] = this.coverImage;
+    data['movieName'] = this.movieName;
+    data['isFavorite'] = this.isFavorite;
+    data['rate'] = this.rate;
+    data['movieYear'] = this.movieYear;
+    data['movieTrailerLink'] = this.movieTrailerLink;
+    data['movieDescription'] = this.movieDescription;
+    data['movieDirector'] = this.movieDirector;
+    // if (this.movieCategories != null) {
+    //   data['movieCategories'] =
+    //       this.movieCategories!.map((v) => v.toJson()).toList();
+    // }
+    data['__v'] = this.iV;
+    return data;
+  }
+}
+
+class Horror {
+  String? sId;
+  String? movieID;
+  String? coverImage;
+  String? movieName;
+  int? isFavorite;
+  double? rate;
+  int? movieYear;
+  String? movieTrailerLink;
+  String? movieDescription;
+  String? movieDirector;
+  //List<MovieCategories>? movieCategories;
+  int? iV;
+
+  Horror(
+      {this.sId,
+        this.movieID,
+        this.coverImage,
+        this.movieName,
+        this.isFavorite,
+        this.rate,
+        this.movieYear,
+        this.movieTrailerLink,
+        this.movieDescription,
+        this.movieDirector,
+        //this.movieCategories,
+        this.iV});
+
+  Horror.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    movieID = json['movieID'];
+    coverImage = json['coverImage'];
+    movieName = json['movieName'];
+    isFavorite = json['isFavorite'];
+    rate = json['rate'];
+    movieYear = json['movieYear'];
+    movieTrailerLink = json['movieTrailerLink'];
+    movieDescription = json['movieDescription'];
+    movieDirector = json['movieDirector'];
+    // if (json['movieCategories'] != null) {
+    //   movieCategories = <MovieCategories>[];
+    //   json['movieCategories'].forEach((v) {
+    //     movieCategories!.add(new MovieCategories.fromJson(v));
+    //   });
+    // }
+    iV = json['__v'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['movieID'] = this.movieID;
+    data['coverImage'] = this.coverImage;
+    data['movieName'] = this.movieName;
+    data['isFavorite'] = this.isFavorite;
+    data['rate'] = this.rate;
+    data['movieYear'] = this.movieYear;
+    data['movieTrailerLink'] = this.movieTrailerLink;
+    data['movieDescription'] = this.movieDescription;
+    data['movieDirector'] = this.movieDirector;
+    // if (this.movieCategories != null) {
+    //   data['movieCategories'] =
+    //       this.movieCategories!.map((v) => v.toJson()).toList();
+    // }
+    data['__v'] = this.iV;
+    return data;
+  }
+}
+
+class Romance {
+  String? sId;
+  String? movieID;
+  String? coverImage;
+  String? movieName;
+  int? isFavorite;
+  double? rate;
+  int? movieYear;
+  String? movieTrailerLink;
+  String? movieDescription;
+  String? movieDirector;
+  //List<MovieCategories>? movieCategories;
+  int? iV;
+
+  Romance(
+      {this.sId,
+        this.movieID,
+        this.coverImage,
+        this.movieName,
+        this.isFavorite,
+        this.rate,
+        this.movieYear,
+        this.movieTrailerLink,
+        this.movieDescription,
+        this.movieDirector,
+        //this.movieCategories,
+        this.iV});
+
+  Romance.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     movieID = json['movieID'];
     coverImage = json['coverImage'];
